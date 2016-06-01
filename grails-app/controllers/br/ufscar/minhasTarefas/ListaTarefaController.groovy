@@ -7,12 +7,9 @@ class ListaTarefaController {
 
     def listaTarefaService
 
-    def inserir() {
-        String nome = params.nome
-        String usuario = params.usuario
-        ListaTarefa novaLista = null
+    def inserir(ListaTarefa novaLista) {
         try {
-            novaLista = listaTarefaService.inserir(new ListaTarefa(nome: nome, usuario: usuario))
+            novaLista = listaTarefaService.inserir(novaLista)
         }
         catch (ValidationException validationException){
             render(validationException.errors.allErrors as JSON)
