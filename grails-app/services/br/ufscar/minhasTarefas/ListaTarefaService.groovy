@@ -1,6 +1,5 @@
 package br.ufscar.minhasTarefas
 
-import grails.converters.JSON
 import grails.transaction.Transactional
 import grails.validation.ValidationException
 
@@ -8,16 +7,13 @@ import grails.validation.ValidationException
 class ListaTarefaService {
 
     def inserir(ListaTarefa novaLista) {
-        Integer numeroMaximoListas = 3
+
         String tipoUsuario = "Normal"
         if (novaLista.usuario == "Grails") {
             tipoUsuario = "Premium"
         }
 
-        if (tipoUsuario == "Premium") {
-            numeroMaximoListas = 5
-        }
-
+        Integer numeroMaximoListas = obterNumeroMaximoListas(tipoUsuario)
         Integer numeroListasUsuario = ListaTarefa.countByUsuario(novaLista.usuario)
 
         if (numeroListasUsuario >= numeroMaximoListas) {
@@ -28,5 +24,12 @@ class ListaTarefaService {
             throw new ValidationException("", novaLista.errors)
         }
         novaLista
+    }
+
+    private obterNumeroMaximoListas(String tipoUsuario){
+        if (tipoUsuario == "Premium") {
+            return 5
+        }
+        return 3
     }
 }
