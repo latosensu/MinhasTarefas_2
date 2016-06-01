@@ -8,10 +8,20 @@ class ListaTarefaController {
         String nome = params.nome
         String usuario = params.usuario
 
+        Integer numeroMaximoListas = 3
+        String tipoUsuario = "Normal"
+        if (usuario == "Grails") {
+            tipoUsuario = "Premium"
+        }
+
+        if (tipoUsuario == "Premium") {
+            numeroMaximoListas = 5
+        }
+
         Integer numeroListasUsuario = ListaTarefa.countByUsuario(usuario)
 
-        if (numeroListasUsuario>=3) {
-            render ([erro: "Usuário atingiu o número limite de listas"] as JSON)
+        if (numeroListasUsuario >= numeroMaximoListas) {
+            render([erro: "Usuário atingiu o número limite de listas: ${numeroMaximoListas}"] as JSON)
             return
         }
         ListaTarefa novaLista = new ListaTarefa(nome: nome, usuario: usuario)
@@ -48,11 +58,11 @@ class ListaTarefaController {
     }
 
     def remover(ListaTarefa listaTarefa) {
-        if (!listaTarefa){
-            render (['erro': "Não existe a lista selecionada"]) as JSON
+        if (!listaTarefa) {
+            render(['erro': "Não existe a lista selecionada"]) as JSON
             return
         }
         listaTarefa.delete()
-        render (['sucesso': "Lista de tarefas removida com sucesso"]) as JSON
+        render(['sucesso': "Lista de tarefas removida com sucesso"]) as JSON
     }
 }
