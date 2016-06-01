@@ -39,4 +39,13 @@ class ListaTarefaController {
 
         render listasFiltradas as JSON
     }
+
+    def remover(ListaTarefa listaTarefa) {
+        if (!listaTarefa){
+            render (['erro': "Não existe a lista selecionada"]) as JSON
+            return
+        }
+        listaTarefa.delete()
+        render (['sucesso': "Lista de tarefas removida com sucesso"]) as JSON
+    }
 }
