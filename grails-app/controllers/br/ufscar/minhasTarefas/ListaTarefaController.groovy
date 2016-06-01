@@ -7,6 +7,13 @@ class ListaTarefaController {
     def inserir() {
         String nome = params.nome
         String usuario = params.usuario
+
+        Integer numeroListasUsuario = ListaTarefa.countByUsuario(usuario)
+
+        if (numeroListasUsuario>=3) {
+            render ([erro: "Usuário atingiu o número limite de listas"] as JSON)
+            return
+        }
         ListaTarefa novaLista = new ListaTarefa(nome: nome, usuario: usuario)
 
         if (!novaLista.save()) {
