@@ -7,10 +7,10 @@ import grails.validation.ValidationException
 @Transactional
 class ListaTarefaService {
 
-    def inserir(String nome, String usuario) {
+    def inserir(ListaTarefa novaLista) {
         Integer numeroMaximoListas = 3
         String tipoUsuario = "Normal"
-        if (usuario == "Grails") {
+        if (novaLista.usuario == "Grails") {
             tipoUsuario = "Premium"
         }
 
@@ -18,13 +18,11 @@ class ListaTarefaService {
             numeroMaximoListas = 5
         }
 
-        Integer numeroListasUsuario = ListaTarefa.countByUsuario(usuario)
+        Integer numeroListasUsuario = ListaTarefa.countByUsuario(novaLista.usuario)
 
         if (numeroListasUsuario >= numeroMaximoListas) {
             throw new Exception("Usuário atingiu o número limite de listas: ${numeroMaximoListas}")
         }
-
-        ListaTarefa novaLista = new ListaTarefa(nome: nome, usuario: usuario)
 
         if (!novaLista.save()) {
             throw new ValidationException("", novaLista.errors)

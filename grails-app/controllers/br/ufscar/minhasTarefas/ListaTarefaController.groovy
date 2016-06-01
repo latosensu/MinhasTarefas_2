@@ -12,7 +12,7 @@ class ListaTarefaController {
         String usuario = params.usuario
         ListaTarefa novaLista = null
         try {
-            novaLista = listaTarefaService.inserir(nome, usuario)
+            novaLista = listaTarefaService.inserir(new ListaTarefa(nome: nome, usuario: usuario))
         }
         catch (ValidationException validationException){
             render(validationException.errors.allErrors as JSON)
