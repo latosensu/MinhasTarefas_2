@@ -1,0 +1,21 @@
+# default HSQL database files for production mode
+/prodDb.*
+
+# general HSQL database files
+*Db.properties
+*Db.script
+
+# build and out directory
+build
+out
+
+# Gradle files
+.gradle
+gradle
+gradlew*
+
+# Intellij files
+*.iml
+.idea
+
+
