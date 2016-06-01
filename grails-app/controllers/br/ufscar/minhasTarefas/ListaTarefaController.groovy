@@ -1,33 +1,25 @@
 package br.ufscar.minhasTarefas
 
 import grails.converters.JSON
+import grails.validation.ValidationException
 
 class ListaTarefaController {
+
+    def listaTarefaService
 
     def inserir() {
         String nome = params.nome
         String usuario = params.usuario
-
-        Integer numeroMaximoListas = 3
-        String tipoUsuario = "Normal"
-        if (usuario == "Grails") {
-            tipoUsuario = "Premium"
+        ListaTarefa novaLista = null
+        try {
+            novaLista = listaTarefaService.inserir(nome, usuario)
         }
-
-        if (tipoUsuario == "Premium") {
-            numeroMaximoListas = 5
-        }
-
-        Integer numeroListasUsuario = ListaTarefa.countByUsuario(usuario)
-
-        if (numeroListasUsuario >= numeroMaximoListas) {
-            render([erro: "Usuário atingiu o número limite de listas: ${numeroMaximoListas}"] as JSON)
+        catch (ValidationException validationException){
+            render(validationException.errors.allErrors as JSON)
             return
         }
-        ListaTarefa novaLista = new ListaTarefa(nome: nome, usuario: usuario)
-
-        if (!novaLista.save()) {
-            render(novaLista.errors.allErrors as JSON)
+        catch (Exception exception){
+            render([erro: exception.localizedMessage] as JSON)
             return
         }
         render(novaLista as JSON)
