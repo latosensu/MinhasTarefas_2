@@ -15,4 +15,8 @@ class ListaTarefaController {
         }
         render (novaLista as JSON)
     }
+
+    def listar(){
+        render (ListaTarefa.all as JSON)
+    }
 }
