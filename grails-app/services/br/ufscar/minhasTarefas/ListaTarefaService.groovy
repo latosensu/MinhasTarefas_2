@@ -14,7 +14,8 @@ class ListaTarefaService {
         }
 
         Integer numeroMaximoListas = obterNumeroMaximoListas(tipoUsuario)
-        Integer numeroListasUsuario = ListaTarefa.countByUsuario(novaLista.usuario)
+        String usuario = novaLista.usuario
+        Integer numeroListasUsuario = contarListasUsuario(usuario)
 
         if (numeroListasUsuario >= numeroMaximoListas) {
             throw new Exception("Usuário atingiu o número limite de listas: ${numeroMaximoListas}")
@@ -24,6 +25,10 @@ class ListaTarefaService {
             throw new ValidationException("", novaLista.errors)
         }
         novaLista
+    }
+
+    private Integer contarListasUsuario(String usuario) {
+        ListaTarefa.countByUsuario(usuario)
     }
 
     private obterNumeroMaximoListas(String tipoUsuario){
