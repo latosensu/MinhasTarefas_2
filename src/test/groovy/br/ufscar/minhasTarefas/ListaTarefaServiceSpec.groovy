@@ -60,4 +60,15 @@ class ListaTarefaServiceSpec extends Specification {
         "Kirk"    || 0
     }
 
+    void "Inserir primeira lista para usuário normal"() {
+        given: "Dada uma nova lista"
+        ListaTarefa novaLista = new ListaTarefa(nome: "Primeira Lista", usuario: "Klingon").save(flush: true, failOnError: true)
+
+        when: "Inserir a primeira lista"
+        service.inserir(novaLista)
+
+        then: "O usuário tem uma lista cadastrada"
+        ListaTarefa.findByUsuario("Klingon") == novaLista
+    }
+
 }
