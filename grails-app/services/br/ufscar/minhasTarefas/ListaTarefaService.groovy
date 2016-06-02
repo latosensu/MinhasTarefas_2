@@ -38,4 +38,18 @@ class ListaTarefaService {
     def listar() {
         ListaTarefa.all
     }
+
+    def filtrar (String nome = null, String usuario = null, String ativa = null) {
+        def listasFiltradas = ListaTarefa.withCriteria() {
+            if (nome) {
+                eq('nome', nome)
+            }
+            if (usuario) {
+                eq('usuario', usuario)
+            }
+            if (ativa != null) {
+                eq('ativa', ativa)
+            }
+        }
+    }
 }

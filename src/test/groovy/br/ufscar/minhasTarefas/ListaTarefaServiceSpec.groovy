@@ -37,4 +37,25 @@ class ListaTarefaServiceSpec extends Specification {
         listas.containsAll(listaTarefa1, listaTarefa2)
     }
 
+    void "Filtrar listas de tarefas pelo usuario"() {
+        setup: "Existem duas listas para o usuario Spock"
+        def listaTarefa1 = new ListaTarefa(usuario: "Spock").save(flush: true, validate: false)
+        def listaTarefa2 = new ListaTarefa(usuario: "Spock").save(flush: true, validate: false)
+
+        and: "Uma lista para o usuario Klingon"
+        def listaTarefa3 = new ListaTarefa(usuario: "Klingon").save(flush: true, validate: false)
+
+        when: "Filtra as listas de tarefas de um usuário"
+        def listas = service.filtrar(null, usuario)
+
+        then: "A lista tem o tamanho esperado"
+        listas.size() == tamanhoEsperado
+
+        where:
+        usuario   || tamanhoEsperado
+        "Spock"   || 2
+        "Klingon" || 1
+        "Kirk"    || 0
+    }
+
 }
