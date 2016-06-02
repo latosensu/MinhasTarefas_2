@@ -6,9 +6,11 @@ import grails.validation.ValidationException
 @Transactional
 class ListaTarefaService {
 
+    def usuarioService
+
     def inserir(ListaTarefa novaLista) {
         String usuario = novaLista.usuario
-        String tipoUsuario = obterTipoUsuario(usuario)
+        String tipoUsuario = usuarioService.obterTipoUsuario(usuario)
         Integer numeroMaximoListas = obterNumeroMaximoListas(tipoUsuario)
         Integer numeroListasUsuario = contarListasUsuario(usuario)
 
@@ -20,14 +22,6 @@ class ListaTarefaService {
             throw new ValidationException("", novaLista.errors)
         }
         novaLista
-    }
-
-    private String obterTipoUsuario(String usuario) {
-        String tipoUsuario = "Normal"
-        if (usuario == "Grails") {
-            tipoUsuario = "Premium"
-        }
-        tipoUsuario
     }
 
     private Integer contarListasUsuario(String usuario) {
