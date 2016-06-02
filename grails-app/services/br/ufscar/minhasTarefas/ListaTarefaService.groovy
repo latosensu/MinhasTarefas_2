@@ -7,13 +7,9 @@ import grails.validation.ValidationException
 class ListaTarefaService {
 
     def inserir(ListaTarefa novaLista) {
-        String tipoUsuario = "Normal"
-        if (novaLista.usuario == "Grails") {
-            tipoUsuario = "Premium"
-        }
-
-        Integer numeroMaximoListas = obterNumeroMaximoListas(tipoUsuario)
         String usuario = novaLista.usuario
+        String tipoUsuario = obterTipoUsuario(usuario)
+        Integer numeroMaximoListas = obterNumeroMaximoListas(tipoUsuario)
         Integer numeroListasUsuario = contarListasUsuario(usuario)
 
         if (numeroListasUsuario >= numeroMaximoListas) {
@@ -24,6 +20,14 @@ class ListaTarefaService {
             throw new ValidationException("", novaLista.errors)
         }
         novaLista
+    }
+
+    private String obterTipoUsuario(String usuario) {
+        String tipoUsuario = "Normal"
+        if (usuario == "Grails") {
+            tipoUsuario = "Premium"
+        }
+        tipoUsuario
     }
 
     private Integer contarListasUsuario(String usuario) {
