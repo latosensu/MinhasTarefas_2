@@ -34,4 +34,8 @@ class ListaTarefaService {
         }
         return 3
     }
+
+    def listar() {
+        ListaTarefa.all
+    }
 }
