@@ -3,6 +3,7 @@ package br.ufscar.minhasTarefas
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -37,6 +38,7 @@ class ListaTarefaServiceSpec extends Specification {
         listas.containsAll(listaTarefa1, listaTarefa2)
     }
 
+    @Unroll("O filtro retorna #tamanhoEsperado listas para o usuario #usuario")
     void "Filtrar listas de tarefas pelo usuario"() {
         setup: "Existem duas listas para o usuario Spock"
         def listaTarefa1 = new ListaTarefa(usuario: "Spock").save(flush: true, validate: false)
