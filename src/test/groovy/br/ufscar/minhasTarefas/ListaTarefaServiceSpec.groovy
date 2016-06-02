@@ -76,4 +76,25 @@ class ListaTarefaServiceSpec extends Specification {
         ListaTarefa.findByUsuario("Klingon") == novaLista
     }
 
+    void "Inserir quarta lista para usuário normal"() {
+        given: "3 listas de um usuario normal"
+        3.times {
+            new ListaTarefa(usuario: "Klingon").save(flush: true, validate: false)
+        }
+
+        "Dada uma nova lista"
+        ListaTarefa novaLista = new ListaTarefa(nome: "Quart Lista", usuario: "Klingon").save(flush: true, failOnError: true)
+
+        and: "Mock do usuario service"
+        def mockUsuarioService = GroovyMock(UsuarioService)
+        mockUsuarioService.obterTipoUsuario(_) >> "Normal"
+        service.usuarioService = mockUsuarioService
+
+        when: "Inserir a quarta lista"
+        service.inserir(novaLista)
+
+        then: "O usuário tem uma lista cadastrada"
+        ListaTarefa.findByUsuario("Klingon") == novaLista
+    }
+
 }
