@@ -15,8 +15,8 @@ class ListaTarefaServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "Listar listas de tarefas quando não existe nenhuma cadastrada no banco"() {
+        expect: "Lista vazia"
+        service.listar().empty
     }
 }
