@@ -94,7 +94,8 @@ class ListaTarefaServiceSpec extends Specification {
         service.inserir(novaLista)
 
         then: "Uma exceção é lançada"
-        thrown Exception
+        Exception exception = thrown()
+        exception.message == "Usuário atingiu o número limite de listas: 3"
     }
 
 }
