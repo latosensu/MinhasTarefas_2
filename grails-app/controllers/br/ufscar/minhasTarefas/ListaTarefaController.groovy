@@ -6,16 +6,19 @@ import grails.validation.ValidationException
 class ListaTarefaController {
 
     def listaTarefaService
+    def messageSource
 
     def inserir(ListaTarefa novaLista) {
         try {
             novaLista = listaTarefaService.inserir(novaLista)
         }
-        catch (ValidationException validationException){
-            render(validationException.errors.allErrors as JSON)
+        catch (ValidationException validationException) {
+            def erros = []
+            validationException.errors.allErrors.each { erros << messageSource.getMessage(it, null) }
+            render(erros as JSON)
             return
         }
-        catch (Exception exception){
+        catch (Exception exception) {
             render([erro: exception.localizedMessage] as JSON)
             return
         }
