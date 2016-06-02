@@ -64,6 +64,11 @@ class ListaTarefaServiceSpec extends Specification {
         given: "Dada uma nova lista"
         ListaTarefa novaLista = new ListaTarefa(nome: "Primeira Lista", usuario: "Klingon").save(flush: true, failOnError: true)
 
+        and: "Mock do usuario service"
+        def mockUsuarioService = GroovyMock(UsuarioService)
+        mockUsuarioService.obterTipoUsuario(_) >> "Normal"
+        service.usuarioService = mockUsuarioService
+
         when: "Inserir a primeira lista"
         service.inserir(novaLista)
 
