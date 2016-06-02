@@ -93,8 +93,8 @@ class ListaTarefaServiceSpec extends Specification {
         when: "Inserir a quarta lista"
         service.inserir(novaLista)
 
-        then: "O usuário tem uma lista cadastrada"
-        ListaTarefa.findByUsuario("Klingon") == novaLista
+        then: "Uma exceção é lançada"
+        thrown Exception
     }
 
 }
